@@ -1,4 +1,4 @@
-export class Basket {
+class Basket {
     constructor(x, y, src) 
     {
       this.x = x;

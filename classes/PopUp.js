@@ -1,4 +1,4 @@
-export class PopUp
+class PopUp
 {
     constructor(x, y, hit) 
     {

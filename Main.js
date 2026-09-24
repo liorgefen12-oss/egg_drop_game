@@ -1,14 +1,14 @@
-//import * as EggModule from './Egg.js';
-//import * as PopUpModule from './PopUp.js';
-//import {Basket} from "./Basket.js";
-
-console.log("Main.js loaded");
 /*
-let egg, basket, score, score_num;
+import {Egg} from "./classes/Egg.js";
+import {PopUp} from "./classes/PopUp.js";
+import {Basket} from "./classes/Basket.js" ;  
+*/
+console.log("Main.js loaded");
+
+let egg, basket, score, score_num, ctx;
 let finished = false, instructions_vis = false, victory_msg_vis = false;
 let eggs_dropped = 0;
 const dir_btns = document.getElementsByClassName("dir_btn");
-
 
 
 let victory_msg = document.createElement("div");
@@ -107,22 +107,22 @@ let game_area = {
 }
 function loadButtons(){
   document.getElementById("start_btn").addEventListener("click", startNewGame);
-  document.getElementById("instructions_btn").addEventListener("click", showInstructions);
-  document.getElementById("instructions_btn").addEventListener("touchstart", showInstructions);
+  document.getElementById("instructions_btn").addEventListener("click", function() { changeInstructionsVisibility(instructions_vis); });
+  document.getElementById("instructions_btn").addEventListener("touchstart", function() { changeInstructionsVisibility(instructions_vis); });
   document.getElementById("start_btn").addEventListener("touchstart", startNewGame);
-  document.getElementById("left").addEventListener("mousedown", moveLeft);
-  document.getElementById("left").addEventListener("mouseup", stop);
-  document.getElementById("left").addEventListener("touchstart", moveLeft);
-  document.getElementById("right").addEventListener("mousedown", moveRight);
-  document.getElementById("right").addEventListener("mouseup", stop);
-  document.getElementById("right").addEventListener("touchstart", moveRight);
-  document.getElementById("right").addEventListener("touchend", stop);
+  document.getElementById("left").addEventListener("mousedown", function() { basket.moveLeft(); });
+  document.getElementById("left").addEventListener("mouseup", function() { basket.stop(); });
+  document.getElementById("left").addEventListener("touchstart", function() { basket.moveLeft(); });
+  document.getElementById("right").addEventListener("mousedown", function() { basket.moveRight(); });
+  document.getElementById("right").addEventListener("mouseup", function() { basket.stop(); });
+  document.getElementById("right").addEventListener("touchstart", function() { basket.moveRight(); });
+  document.getElementById("right").addEventListener("touchend", function() { basket.stop(); });
 }
 function loadGame(){
   loadButtons(); //ensure buttons are loaded when the game loads
 //creating the objects initially
-egg = new EggModule.Egg(Math.floor(Math.random() * 400),0,"red");
-basket = new Basket(100, 185, "C:\\Users\\מיטב\\Desktop\\ליאור חפיפה\\classes\\assets\\basket.jpg");
+egg = new Egg(Math.floor(Math.random() * 400),0);
+basket = new Basket(100, 185, "egg_drop_game\assets\basket.jpg");
 score_board = new component("30px", "Consolas", "black", 280, 40, "text");
 
 win_msg = new component(40,50,"red", 200, 400, "text");
@@ -133,14 +133,14 @@ for (let i = 0; i < dir_btns.length; i++) {
 }
 //score.text.visibility="hidden";
 game_area.start();
+ctx = game_area.context;
 }
 
 function startNewGame(){ //when user presses start/start again
+  enableNewGame();
+  showDirectionButtons();
   score_num = 0;
   finished = false;
-  for (let i = 0; i < dir_btns.length; i++) {
-    dir_btns[i].style.visibility = "visible";
-  }
   hideInstructions();
   hideVictoryMessage();
 
@@ -148,15 +148,29 @@ function startNewGame(){ //when user presses start/start again
   score_board.text = "score: " + score_num;
   drop_egg();
 }
+function changeInstructionsVisibility(vis) {
+  if (!vis) { showInstructions(); }
+  else { hideInstructions(); }
+}
 function hideInstructions() 
 {
   instructions.style.visibility = "hidden";
-  instructions_visibility = false;
+  instructions_vis = false;
 }
 function showInstructions() 
 {
   instructions.style.visibility = "visible";
-  instructions_visibility = true;
+  instructions_vis = true;
+}
+function showDirectionButtons() {
+  for (let i = 0; i < dir_btns.length; i++) {
+    dir_btns[i].style.visibility = "visible";
+  }
+}
+function hideDirectionButtons() {
+  for (let i = 0; i < dir_btns.length; i++) {
+    dir_btns[i].style.visibility = "hidden";
+  }
 }
 
 function hideVictoryMessage() 
@@ -179,7 +193,7 @@ function clickInstructions(vis) {
 
 function drop_egg() //drop new egg
 { 
-  let egg = new eggModule.Egg(Math.floor(Math.random() * 400),0,"red");
+  let egg = new eggModule.Egg(Math.floor(Math.random() * 400),0);
   eggs_dropped++;
   console.log("eggs_dropped: " + eggs_dropped); 
   egg.speedY = 2; //egg goes down
@@ -201,7 +215,6 @@ function hideDirectionButtons(){
 function finish_game(){ //called when user won
   showVictoryMessage();
   hideInstructions();
-  document.getElementById("win_msg").style.visibility = "visible"; //show victory msg
   hideInstructions();
   enableNewGame();
   hideDirectionButtons();
@@ -211,7 +224,7 @@ function updateGameArea()
 {
     game_area.clear();
     game_area.detect_hits();
-    score.text = "SCORE: " + score_num;
+    score_board.text = "SCORE: " + score_num;
     if (game_area.keys && game_area.keys[37]) //left arrow key is pressed
       {
         moveLeft();
@@ -222,10 +235,9 @@ function updateGameArea()
         moveRight();
         stop();
       }
-    egg.update(), egg.newPos();
+    egg.draw(game_area.context), egg.newPos();
     basket.update(), basket.newPos();
     score.update();
 }
 
 window.addEventListener("load", loadGame);
-*/
