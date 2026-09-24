@@ -1,0 +1,60 @@
+body{
+  padding: 25px;
+  font-family:cursive;
+}
+.title {
+	color: #5C6AC4;
+}
+
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #6bc2e4;
+    background-size: cover;
+    background-image: url("C:\\Users\\מיטב\\Desktop\\ליאור חפיפה\\classes\\assets\\background.png");
+    
+}
+
+#victory_msg{
+    font-size: 30px;
+    font-weight: bolder;
+    color: #5C6AC4;
+    padding: 10px;
+    border: 2px solid #5C6AC4;
+    background-color: rgba(132, 100, 100, 0.507);
+    border-radius: 15px;
+    margin-bottom: 10px;
+    visibility: hidden;
+}
+
+
+#instructions{
+    font-size: 18px;
+    font-weight: bolder;
+    font-family: cursive;
+    color: #000000;
+    padding: 10px;
+    border: 9px solid #6d9e42;
+    background-color: rgb(191 220 136);
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+
+#start_btn, #instructions_btn{
+    background-color: #cce113;
+    padding: 25px;
+    font-weight: bolder;
+    border:3px solid #c9ae2b;
+    border-radius:15px;
+}
+
+.dir_btn{
+    /* height: 40px; */
+    font-size: 41px;
+    align-content: center;
+    font-weight: bolder;
+    border-width: medium;
+    border-radius: 5px;
+    /* width: 85px; */
+    padding: 0px 30px;
+    /* text-align: center; */
+}
